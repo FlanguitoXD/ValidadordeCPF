@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Validador de CPF</title>
+</head>
+<body>
+    <input type="text" id="txtCPF">
+    <input type="button" value="Validar CPF" onclick="CapturarDados()">   
+</body>
+<script>
+    function CapturarDados(){
+        let ValorDigitado = document.getElementById('txtCPF').value
+        MontarArray(ValorDigitado)
+    }
+    function MontarArray(ValorCapturado){
+        let NumeroCPF = []
+        for (let i = 0; i < ValorCapturado.length; i++){
+            NumeroCPF.push(ValorCapturado.substring(i,i +1))   
+        }
+        console.log(NumeroCPF)
+        ValidarPrimeiroDigito(NumeroCPF)
+
+    }
+    function ValidarPrimeiroDigito(Numeros){
+        let ValorTotal = 0
+        let i = 0
+        let Peso = 10
+        while (i <=8){
+            //let Numero = Numeros [i]
+            ValorTotal = ValorTotal + (Numeros [i] * Peso)
+            i ++;
+            Peso --;
+            
+        }
+        let Resto = ValorTotal % 11
+        let Digito = 11 - Resto
+        if(Digito == 10 || Digito == 11 && Numeros [9] == 0){
+            ValidarSegundoDigito(Numeros)
+        }
+        else
+        {
+            if(Digito == Numeros[9]){
+               ValidarSegundoDigito(Numeros)
+            }
+            else
+            {
+                CPFInvalido()
+            }
+        }    
+        
+    }
+    function ValidarSegundoDigito(Numeros){
+        let ValorTotal = 0 
+        let i = 0
+        let Peso = 11
+        while(i <= 9){
+            ValorTotal = ValorTotal + (Numeros [i] * Peso)
+            i++;
+            Peso --;
+        } 
+        let Resto = ValorTotal % 11
+        let Digito = 11 - Resto
+        if (Digito == 10 || Digito == 11 && Numeros[10] ==0) {
+            CPFValido()
+        }
+        else{
+            if (Digito == Numeros[10]){
+                CPFValido()
+            }
+            else{
+                CPFInvalido()
+            }
+
+        }
+        function CPFValido(){
+            alert("**CPF Válido**")
+        }
+        function CPFInvalido(){
+            alert("**CPF Inválido**")
+        }
+    }
+</script>  
+</html>
